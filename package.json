@@ -2,7 +2,7 @@
     "name": "mini-event",
     "version": "0.8",
     "description": "A simple and dedicated library to provide event components",
-    "main": "Event",
+    "main": "main",
     "maintainers": [
         { "name": "otakustay", "email": "otakustay@gmail.com" }
     ],
