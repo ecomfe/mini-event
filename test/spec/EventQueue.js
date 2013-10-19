@@ -181,6 +181,21 @@ define(function (require) {
                 expect(handlerC).toHaveBeenCalled();
                 expect(handlerD).toHaveBeenCalled();
             });
+
+            it('should not execute following handlers if event is immediately ssoppted', function () {
+                var queue = new EventQueue();
+                var event = {
+                    isImmediatePropagationStopped: function () { return false; }
+                };
+                var handlerA = function () {
+                    event.isImmediatePropagationStopped = function () { return true; }
+                };
+                var handlerB = jasmine.createSpy('handlerB');
+                queue.add(handlerA);
+                queue.add(handlerB);
+                queue.execute(event, null);
+                expect(handlerB).not.toHaveBeenCalled();
+            });
         });
     });
 });
