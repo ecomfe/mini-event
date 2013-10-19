@@ -25,7 +25,7 @@ define(
         lib.extend = function (source) {
             for (var i = 1; i < arguments.length; i++) {
                 var addition = arguments[i];
-                
+
                 if (!addition) {
                     continue;
                 }
