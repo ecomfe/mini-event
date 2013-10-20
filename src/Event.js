@@ -35,7 +35,7 @@ define(
             if (typeof args === 'object') {
                 lib.extend(this, args);
             }
-            else {
+            else if (args) {
                 this.data = args;
             }
 
@@ -73,17 +73,19 @@ define(
         };
 
         /**
-         * 判断事件横向传播是否已被阻止
+         * 判断事件的立即传播是否已被阻止
          *
          * @return {boolean}
          */
         Event.prototype.isImmediatePropagationStopped = returnFalse;
 
         /**
-         * 阻止事件横向传播
+         * 立即阻止事件传播
          */
         Event.prototype.stopImmediatePropagation = function () {
             this.isImmediatePropagationStopped = returnTrue;
+
+            this.stopPropagation();
         };
 
         return Event;
