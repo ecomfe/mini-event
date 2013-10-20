@@ -10,7 +10,7 @@ define(function (require) {
             expect(new EventQueue()).toBeOfType('object');
         });
 
-        describe('add method', function () {
+        describe('`add` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
                 expect(queue.add).toBeOfType('function');
@@ -33,7 +33,7 @@ define(function (require) {
             });
         });
 
-        describe('remove method', function () {
+        describe('`remove` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
                 expect(queue.remove).toBeOfType('function');
@@ -58,7 +58,7 @@ define(function (require) {
             });
         });
 
-        describe('clear method', function () {
+        describe('`clear` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
                 expect(queue.clear).toBeOfType('function');
@@ -70,7 +70,7 @@ define(function (require) {
             });
         });
 
-        describe('exeute method', function () {
+        describe('`exeute` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
                 expect(queue.execute).toBeOfType('function');
