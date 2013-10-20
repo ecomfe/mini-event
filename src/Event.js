@@ -16,7 +16,7 @@ define(
          * 事件类
          *
          * @param {string=} type 事件类型
-         * @param {Object=} args 事件中的数据
+         * @param {Mixed=} args 事件中的数据
          * @constructor
          */
         function Event(type, args) {
@@ -86,6 +86,54 @@ define(
             this.isImmediatePropagationStopped = returnTrue;
 
             this.stopPropagation();
+        };
+
+        var globalWindow = (function () { return this; }());
+
+        /**
+         * 从DOM事件对象生成一个Event对象
+         *
+         * @param {Event} domEvent DOM事件对象
+         * @param {string=} type 事件类型
+         * @param {Mixed=} args 事件数据
+         * @return {Event}
+         */
+        Event.fromDOMEvent = function (domEvent, type, args) {
+            domEvent = domEvent || globalWindow.event;
+
+            var event = new Event(type, args);
+
+            event.preventDefault = function () {
+                if (domEvent.preventDefault) {
+                    domEvent.preventDefault();
+                }
+                else {
+                    domEvent.returnValue = false;
+                }
+
+                Event.prototype.preventDefault.call(this);
+            };
+
+            event.stopPropagation = function () {
+                if (domEvent.stopPropagation) {
+                    domEvent.stopPropagation();
+                }
+                else {
+                    domEvent.cancelBubble = true;
+                }
+
+                Event.prototype.stopPropagation.call(this);
+            };
+
+            event.stopImmediatePropagation = function () {
+                if (domEvent.stopImmediatePropagation) {
+                    domEvent.stopImmediatePropagation();
+                }
+
+                Event.prototype.stopImmediatePropagation.call(this);
+            };
+
+            return event;
         };
 
         return Event;
