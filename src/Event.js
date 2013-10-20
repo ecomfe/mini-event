@@ -136,6 +136,135 @@ define(
             return event;
         };
 
+        // 复制事件属性的时候不复制这几个
+        var EVENT_PROPERTY_BLACK_LIST = {
+            type: true,
+            preventDefault: true, isDefaultPrevented: true,
+            stopPropagation: true, isPropagationStopped: true,
+            stopImmediatePropagation: true, isImmediatePropagationStopped: true
+        };
+
+        /**
+         * 从一个已有事件对象生成一个新的事件对象
+         *
+         * @param {Event} 作为源的已有事件对象
+         * @param {Object} [options] 配置项
+         * @param {string} [options.type] 新事件对象的类型，不提供则保留原类型
+         * @param {boolean} [options.preserveData=false] 是否保留事件的信息
+         * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
+         * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
+         * @param {Object} [extend] 提供事件对象的更多属性
+         */
+        Event.fromEvent = function (originalEvent, options) {
+            var defaults = {
+                type: originalEvent.type,
+                preserveData: false,
+                syncState: false
+            };
+            options = lib.extend(defaults, options);
+
+            var newEvent = new Event(options.type);
+            // 如果保留数据，则把数据复制过去
+            if (options.preserveData) {
+                // 要去掉一些可能出现的杂质，因此不用`lib.extend`
+                for (var key in originalEvent) {
+                    if (originalEvent.hasOwnProperty(key)
+                        && !EVENT_PROPERTY_BLACK_LIST.hasOwnProperty(key)
+                    ) {
+                        newEvent[key] = originalEvent[key];
+                    }
+                }
+            }
+
+            // 如果有扩展属性，加上去
+            if (options.extend) {
+                lib.extend(newEvent, options.extend);
+            }
+
+            // 如果要同步状态，把和状态相关的方法挂接上
+            if (options.syncState) {
+                newEvent.preventDefault = function () {
+                    originalEvent.preventDefault();
+
+                    Event.prototype.preventDefault.call(this);
+                };
+
+                newEvent.stopPropagation = function () {
+                    originalEvent.stopPropagation();
+
+                    Event.prototype.stopPropagation.call(this);
+                };
+
+                newEvent.stopImmediatePropagation = function () {
+                    originalEvent.stopImmediatePropagation();
+
+                    Event.prototype.stopImmediatePropagation.call(this);
+                };
+            }
+
+            return newEvent;
+        };
+
+        /**
+         * 将一个对象的事件代理到另一个对象
+         *
+         * @param {Observable} from 事件提供方
+         * @param {Observable|string} fromType 为字符串表示提供方事件类型；
+         * 为可监听对象则表示接收方，此时事件类型由第3个参数提供
+         * @param {Observable|string} to 为字符串则表示提供方和接收方事件类型一致，
+         * 由此参数作为事件类型；为可监听对象则表示接收方，此时第2个参数必须为字符串
+         * @param {string=} toType 接收方的事件类型
+         * @param {Object} [options] 配置项
+         * @param {boolean} [options.preserveData=false] 是否保留事件的信息
+         * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
+         * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
+         * @param {Object} [extend] 提供事件对象的更多属性
+         *
+         * @example
+         * 
+         *     // 当`label`触发`click`事件时，自身也触发`click`事件
+         *     Event.delegate(label, this, 'click');
+         *
+         *     // 当`label`触发`click`事件时，自身触发`labelclick`事件
+         *     Event.delegate(label, 'click', this, 'labelclick');
+         */
+        Event.delegate = function (from, fromType, to, toType, options) {
+            // 重载：
+            // 
+            // 1. `.delegate(from, fromType, to, toType)`
+            // 2. `.delegate(from, fromType, to, toType, options)`
+            // 3. `.delegate(from, to, type)`
+            // 4. `.delegate(from, to, type, options)
+
+            // 重点在于第2个参数的类型，如果为字符串则肯定是1或2，否则为3或4
+            var useDifferentType = typeof fromType === 'string';
+            var source = {
+                object: from,
+                type: useDifferentType ? fromType : to
+            };
+            var target = {
+                object: useDifferentType ? to : fromType,
+                type: useDifferentType ? toType : to
+            };
+            var config = useDifferentType ? options : toType;
+            config = lib.extend({ preserveData: false }, config);
+
+            // 如果提供方不能注册事件，或接收方不能触发事件，那就不用玩了
+            if (typeof source.object.on !== 'function'
+                || typeof target.object.fire !== 'function'
+            ) {
+                return;
+            }
+
+            var delegator = function (originalEvent) {
+                var event = Event.fromEvent(originalEvent, config);
+
+                target.object.fire(target.type, event);
+            };
+
+            source.object.on(source.type, delegator);
+        };
+
         return Event;
     }
 );
