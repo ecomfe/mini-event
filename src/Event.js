@@ -5,7 +5,6 @@
  * @file 事件对象类
  * @author otakustay
  */
-
 define(
     function (require) {
         var lib = require('./lib');
@@ -16,14 +15,33 @@ define(
         /**
          * 事件类
          *
-         * @param {string} type 事件类型
+         * @param {string=} type 事件类型
          * @param {Object=} args 事件中的数据
          * @constructor
          */
         function Event(type, args) {
-            this.type = type;
+            // 3个重载：
+            //
+            // - `new Event(type)`
+            // - `new Event(args)`
+            // - `new Event(type, args)`
 
-            lib.extend(this, args);
+            // 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
+            if (arguments.length === 1 && typeof type === 'object') {
+                args = type;
+                type = args.type;
+            }
+
+            if (typeof args === 'object') {
+                lib.extend(this, args);
+            }
+            else {
+                this.data = args;
+            }
+
+            if (type) {
+                this.type = type;
+            }
         }
 
         /**
@@ -68,8 +86,6 @@ define(
             this.isImmediatePropagationStopped = returnTrue;
         };
 
-        return {
-            Event: Event
-        };
+        return Event;
     }
 );
