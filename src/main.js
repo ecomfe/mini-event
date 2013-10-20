@@ -8,8 +8,13 @@
 
 define(
     function (require) {
+        var Event = require('./Event');
+
         return {
-            Event: require('./Event')
+            Event: Event,
+            fromDOMEvent: Event.fromDOMEvent,
+            fromEvent: Event.fromEvent,
+            delegate: Event.delegate
         };
     }
 );
