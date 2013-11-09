@@ -226,6 +226,27 @@ define(function() {
             })
         });
 
+        describe('`destroyEvents` method', function () {
+            it('should exist', function () {
+                var eventTarget = new EventTarget();
+                expect(eventTarget.destroyEvents).toBeOfType('function');
+            });
+
+            it('should remove all events', function () {
+                var eventTarget = new EventTarget();
+                var handler = jasmine.createSpy('handler');
+                eventTarget.on('change', handler);
+                eventTarget.destroyEvents();
+                eventTarget.fire('change');
+                expect(handler).not.toHaveBeenCalled();
+            });
+
+            it('should works silently when no events are initialized', function () {
+                var eventTarget = new EventTarget();
+                expect(function () { eventTarget.destroyEvents(); }).not.toThrow();
+            });
+        });
+
         describe('`enable` method', function() {
             it('should exist', function () {
                 expect(EventTarget.enable).toBeOfType('function');

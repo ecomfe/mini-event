@@ -139,6 +139,23 @@ define(
         };
 
         /**
+         * 销毁所有事件
+         */
+        EventTarget.prototype.destroyEvents = function () {
+            if (!this.miniEventPool) {
+                return;
+            }
+
+            for (var name in this.miniEventPool) {
+                if (this.miniEventPool.hasOwnProperty(name)) {
+                    this.miniEventPool[name].dispose();
+                }
+            }
+
+            this.miniEventPool = null;
+        };
+
+        /**
          * 在无继承关系的情况下，使一个对象拥有事件处理的功能
          * 
          * @param {Mixed} target 需要支持事件处理功能的对象
