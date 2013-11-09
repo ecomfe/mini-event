@@ -15,8 +15,8 @@ define(
         /**
          * 事件类
          *
-         * @param {string=} type 事件类型
-         * @param {Mixed=} args 事件中的数据
+         * @param {string} [type] 事件类型
+         * @param {Mixed} [args] 事件中的数据
          * @constructor
          */
         function Event(type, args) {
@@ -94,8 +94,8 @@ define(
          * 从DOM事件对象生成一个Event对象
          *
          * @param {Event} domEvent DOM事件对象
-         * @param {string=} type 事件类型
-         * @param {Mixed=} args 事件数据
+         * @param {string} [type] 事件类型
+         * @param {Mixed} [args] 事件数据
          * @return {Event}
          */
         Event.fromDOMEvent = function (domEvent, type, args) {
@@ -209,11 +209,11 @@ define(
          * 将一个对象的事件代理到另一个对象
          *
          * @param {Observable} from 事件提供方
-         * @param {Observable|string} fromType 为字符串表示提供方事件类型；
+         * @param {Observable | string} fromType 为字符串表示提供方事件类型；
          * 为可监听对象则表示接收方，此时事件类型由第3个参数提供
-         * @param {Observable|string} to 为字符串则表示提供方和接收方事件类型一致，
+         * @param {Observable | string} to 为字符串则表示提供方和接收方事件类型一致，
          * 由此参数作为事件类型；为可监听对象则表示接收方，此时第2个参数必须为字符串
-         * @param {string=} toType 接收方的事件类型
+         * @param {string} [toType] 接收方的事件类型
          * @param {Object} [options] 配置项
          * @param {boolean} [options.preserveData=false] 是否保留事件的信息
          * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，

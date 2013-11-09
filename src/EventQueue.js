@@ -17,9 +17,9 @@ define(
          * 添加一个事件处理函数
          *
          * @param {function} handler 处理函数
-         * @param {Object=} options 相关配置
-         * @param {Mixed=} options.thisObject 执行处理函数时的`this`对象
-         * @param {boolean=} options.once 设定函数仅执行一次
+         * @param {Object} [options] 相关配置
+         * @param {Mixed} [options.thisObject] 执行处理函数时的`this`对象
+         * @param {boolean} [options.once] 设定函数仅执行一次
          */
         EventQueue.prototype.add = function (handler, options) {
             for (var i = 0; i < this.queue.length; i++) {
@@ -40,7 +40,7 @@ define(
         /**
          * 移除一个或全部处理函数
          *
-         * @param {function=} handler 指定移除的处理函数，如不提供则移除全部函数
+         * @param {function} [handler] 指定移除的处理函数，如不提供则移除全部函数
          */
         EventQueue.prototype.remove = function (handler) {
             // 如果没提供`handler`，则直接清空

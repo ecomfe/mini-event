@@ -25,9 +25,9 @@ define(
          *
          * @param {string} type 事件的类型
          * @param {function} fn 事件的处理函数
-         * @param {Mixed=} thisObject 事件执行时`this`对象
-         * @param {Object=} options 事件相关配置项
-         * @param {boolean=} options.once 控制事件仅执行一次
+         * @param {Mixed} [thisObject] 事件执行时`this`对象
+         * @param {Object} [options] 事件相关配置项
+         * @param {boolean} [options.once=false] 控制事件仅执行一次
          */
         EventTarget.prototype.on = function (type, fn, thisObject, options) {
             if (!this.miniEventPool) {
@@ -53,8 +53,8 @@ define(
          *
          * @param {string} type 事件的类型
          * @param {function} fn 事件的处理函数
-         * @param {Mixed=} thisObject 事件执行时`this`对象
-         * @param {Object=} options 事件相关配置项
+         * @param {Mixed} [thisObject] 事件执行时`this`对象
+         * @param {Object} [options] 事件相关配置项
          */
         EventTarget.prototype.once = function (type, fn, thisObject, options) {
             options = lib.extend({}, options);
@@ -67,7 +67,7 @@ define(
          *
          * @param {string} type 事件的类型，
          * 如果值为`*`仅会注销通过`*`为类型注册的事件，并不会将所有事件注销
-         * @param {function=} handler 事件的处理函数，
+         * @param {function} [handler] 事件的处理函数，
          * 无此参数则注销`type`指定类型的所有事件处理函数
          */
         EventTarget.prototype.un = function (type, handler) {
@@ -84,8 +84,8 @@ define(
         /**
          * 触发指定类型的事件
          *
-         * @param {string=} type 事件类型
-         * @param {Mixed=} args 事件对象
+         * @param {string} type 事件类型
+         * @param {Mixed} [args] 事件对象
          * @return {Event} 事件传递过程中的`Event`对象
          */
         EventTarget.prototype.fire = function (type, args) {
