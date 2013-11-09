@@ -16,7 +16,7 @@ define(
          *
          * @constructor
          */
-        function Observable() {
+        function EventTarget() {
             this.miniEventPool = {};
         }
 
@@ -29,7 +29,7 @@ define(
          * @param {Object=} options 事件相关配置项
          * @param {boolean=} options.once 控制事件仅执行一次
          */
-        Observable.prototype.on = function (type, fn, thisObject, options) {
+        EventTarget.prototype.on = function (type, fn, thisObject, options) {
             if (!this.miniEventPool) {
                 this.miniEventPool = {};
             }
@@ -56,7 +56,7 @@ define(
          * @param {Mixed=} thisObject 事件执行时`this`对象
          * @param {Object=} options 事件相关配置项
          */
-        Observable.prototype.once = function (type, fn, thisObject, options) {
+        EventTarget.prototype.once = function (type, fn, thisObject, options) {
             options = lib.extend({}, options);
             options.once = true;
             this.on(type, fn, thisObject, options);
@@ -70,7 +70,7 @@ define(
          * @param {function=} handler 事件的处理函数，
          * 无此参数则注销`type`指定类型的所有事件处理函数
          */
-        Observable.prototype.un = function (type, handler) {
+        EventTarget.prototype.un = function (type, handler) {
             if (!this.miniEventPool
                 || !this.miniEventPool.hasOwnProperty(type)
             ) {
@@ -88,7 +88,7 @@ define(
          * @param {Mixed=} args 事件对象
          * @return {Event} 事件传递过程中的`Event`对象
          */
-        Observable.prototype.fire = function (type, args) {
+        EventTarget.prototype.fire = function (type, args) {
             // 3个重载：
             //
             // - `.fire(type)`
@@ -143,11 +143,11 @@ define(
          * 
          * @param {Mixed} target 需要支持事件处理功能的对象
          */
-        Observable.enable = function (target) {
+        EventTarget.enable = function (target) {
             target.miniEventPool = {};
-            lib.extend(target, Observable.prototype);
+            lib.extend(target, EventTarget.prototype);
         };
 
-        return Observable;
+        return EventTarget;
     }
 );
