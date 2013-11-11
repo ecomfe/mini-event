@@ -153,7 +153,7 @@ define(
          * @param {boolean} [options.preserveData=false] 是否保留事件的信息
          * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
          * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
-         * @param {Object} [extend] 提供事件对象的更多属性
+         * @param {Object} [options.extend] 提供事件对象的更多属性
          */
         Event.fromEvent = function (originalEvent, options) {
             var defaults = {
@@ -218,7 +218,7 @@ define(
          * @param {boolean} [options.preserveData=false] 是否保留事件的信息
          * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
          * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
-         * @param {Object} [extend] 提供事件对象的更多属性
+         * @param {Object} [options.extend] 提供事件对象的更多属性
          *
          * @example
          * 
@@ -251,6 +251,7 @@ define(
 
             // 如果提供方不能注册事件，或接收方不能触发事件，那就不用玩了
             if (typeof source.object.on !== 'function'
+                || typeof target.object.on !== 'function'
                 || typeof target.object.fire !== 'function'
             ) {
                 return;
