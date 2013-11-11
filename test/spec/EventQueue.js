@@ -22,7 +22,7 @@ define(function (require) {
                 expect(function () { queue.add(handler); }).not.toThrow();
             });
 
-            it('should be save to add a function handler with `options` object', function () {
+            it('should be safe to add a function handler with `options` object', function () {
                 var queue = new EventQueue();
                 var handler = function () {};
                 var options = {
@@ -39,20 +39,20 @@ define(function (require) {
                 expect(queue.remove).toBeOfType('function');
             });
 
-            it('should be save to remove an attached handler', function () {
+            it('should be safe to remove an attached handler', function () {
                 var queue = new EventQueue();
                 var handler = function () {};
                 queue.add(handler);
                 expect(function () { queue.remove(handler); }).not.toThrow();
             });
 
-            it('should be save to remove a non-attached handler', function () {
+            it('should be safe to remove a non-attached handler', function () {
                 var queue = new EventQueue();
                 var handler = function () {};
                 expect(function () { queue.remove(handler); }).not.toThrow();
             });
 
-            it('should be save to remove all handlers by not providing `handler` argument', function () {
+            it('should be safe to remove all handlers by not providing `handler` argument', function () {
                 var queue = new EventQueue();
                 expect(function () { queue.remove(); }).not.toThrow();
             });
@@ -64,7 +64,7 @@ define(function (require) {
                 expect(queue.clear).toBeOfType('function');
             });
 
-            it('should be save to clear the queue', function () {
+            it('should be safe to clear the queue', function () {
                 var queue = new EventQueue();
                 expect(function () { queue.clear(); }).not.toThrow();
             });
@@ -182,9 +182,10 @@ define(function (require) {
                 expect(handlerD).toHaveBeenCalled();
             });
 
-            it('should not execute following handlers if event is immediately ssoppted', function () {
+            it('should not execute following handlers if event is immediately stopped', function () {
                 var queue = new EventQueue();
                 var event = {
+                    type: 'change',
                     isImmediatePropagationStopped: function () { return false; }
                 };
                 var handlerA = function () {
