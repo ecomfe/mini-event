@@ -185,7 +185,6 @@ define(function (require) {
             it('should not execute following handlers if event is immediately stopped', function () {
                 var queue = new EventQueue();
                 var event = {
-                    type: 'change',
                     isImmediatePropagationStopped: function () { return false; }
                 };
                 var handlerA = function () {
@@ -196,6 +195,24 @@ define(function (require) {
                 queue.add(handlerB);
                 queue.execute(event, null);
                 expect(handlerB).not.toHaveBeenCalled();
+            });
+
+            it('should not execute duplicated handlers', function () {
+                var queue = new EventQueue();
+                var handler = jasmine.createSpy('handler');
+                queue.add(handler);
+                queue.add(handler);
+                queue.execute({}, null);
+                expect(handler.callCount).toBe(1);
+            });
+
+            it('should treated the same handler with different `thisObject` to be different', function () {
+                var queue = new EventQueue();
+                var handler = jasmine.createSpy('handler');
+                queue.add(handler, { thisObject: { x: 1 } });
+                queue.add(handler, { thisObject: { x: 2 } });
+                queue.execute({}, null);
+                expect(handler.callCount).toBe(2);
             });
         });
     });

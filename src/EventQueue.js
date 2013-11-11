@@ -22,17 +22,22 @@ define(
          * @param {boolean} [options.once] 设定函数仅执行一次
          */
         EventQueue.prototype.add = function (handler, options) {
-            for (var i = 0; i < this.queue.length; i++) {
-                var item = this.queue[i];
-                if (item && item.handler === handler) {
-                    return;
-                }
-            }
-
             var wrapper = {
                 handler: handler
             };
             lib.extend(wrapper, options);
+
+            for (var i = 0; i < this.queue.length; i++) {
+                var item = this.queue[i];
+                // 同样的处理函数，不同的`this`对象，相当于外面`bind`了一把再添加，
+                // 此时认为这是完全不同的2个处理函数
+                if (item
+                    && item.handler === handler
+                    && (item.thisObject === wrapper.thisObject)
+                ) {
+                    return;
+                }
+            }
 
             this.queue.push(wrapper);
         };
