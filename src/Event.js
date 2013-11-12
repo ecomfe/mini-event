@@ -25,7 +25,7 @@ define(
          * 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
          *
          * @param {string | Object} [type] 事件类型
-         * @param {Mixed} args 事件中的数据
+         * @param {Mixed} [args] 事件中的数据
          */
         function Event(type, args) {
             // 3个重载：
@@ -155,7 +155,7 @@ define(
         /**
          * 从一个已有事件对象生成一个新的事件对象
          *
-         * @param {Event} 作为源的已有事件对象
+         * @param {Event} originalEvent 作为源的已有事件对象
          * @param {Object} [options] 配置项
          * @param {string} [options.type] 新事件对象的类型，不提供则保留原类型
          * @param {boolean} [options.preserveData=false] 是否保留事件的信息
@@ -216,10 +216,10 @@ define(
         /**
          * 将一个对象的事件代理到另一个对象
          *
-         * @param {Observable} from 事件提供方
-         * @param {Observable | string} fromType 为字符串表示提供方事件类型；
+         * @param {EventTarget} from 事件提供方
+         * @param {EventTarget | string} fromType 为字符串表示提供方事件类型；
          * 为可监听对象则表示接收方，此时事件类型由第3个参数提供
-         * @param {Observable | string} to 为字符串则表示提供方和接收方事件类型一致，
+         * @param {EventTarget | string} to 为字符串则表示提供方和接收方事件类型一致，
          * 由此参数作为事件类型；为可监听对象则表示接收方，此时第2个参数必须为字符串
          * @param {string} [toType] 接收方的事件类型
          * @param {Object} [options] 配置项

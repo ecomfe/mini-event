@@ -25,7 +25,7 @@ define(
          * 注册一个事件处理函数
          *
          * @param {string} type 事件的类型
-         * @param {function} fn 事件的处理函数
+         * @param {Function} fn 事件的处理函数
          * @param {Mixed} [thisObject] 事件执行时`this`对象
          * @param {Object} [options] 事件相关配置项
          * @param {boolean} [options.once=false] 控制事件仅执行一次
@@ -53,7 +53,7 @@ define(
          * 注册一个仅执行一次的处理函数
          *
          * @param {string} type 事件的类型
-         * @param {function} fn 事件的处理函数
+         * @param {Function} fn 事件的处理函数
          * @param {Mixed} [thisObject] 事件执行时`this`对象
          * @param {Object} [options] 事件相关配置项
          */
@@ -68,7 +68,7 @@ define(
          *
          * @param {string} type 事件的类型，
          * 如果值为`*`仅会注销通过`*`为类型注册的事件，并不会将所有事件注销
-         * @param {function} [handler] 事件的处理函数，
+         * @param {Function} [handler] 事件的处理函数，
          * 无此参数则注销`type`指定类型的所有事件处理函数
          */
         EventTarget.prototype.un = function (type, handler) {
