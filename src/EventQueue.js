@@ -1,7 +1,8 @@
 /**
  * mini-event
  * Copyright 2013 Baidu Inc. All rights reserved.
- * 
+ *
+ * @ignore
  * @file 事件队列
  * @author otakustay
  */
@@ -9,6 +10,11 @@ define(
     function (require) {
         var lib = require('./lib');
 
+        /**
+         * 事件队列
+         *
+         * @constructor
+         */
         function EventQueue() {
             this.queue = [];
         }
