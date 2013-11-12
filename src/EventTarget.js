@@ -1,7 +1,8 @@
 /**
  * ER (Enterprise RIA)
  * Copyright 2013 Baidu Inc. All rights reserved.
- * 
+ *
+ * @ignore
  * @file 提供事件相关操作的基类
  * @author otakustay
  */
@@ -12,7 +13,7 @@ define(
         var EventQueue = require('./EventQueue');
 
         /**
-         * 提供与事件相关的操作的基类
+         * 提供事件相关操作的基类
          *
          * @constructor
          */

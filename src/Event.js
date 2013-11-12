@@ -1,7 +1,8 @@
 /**
  * mini-event
  * Copyright 2013 Baidu Inc. All rights reserved.
- * 
+ *
+ * @ignore
  * @file 事件对象类
  * @author otakustay
  */
@@ -13,11 +14,18 @@ define(
         function returnFalse() { return false; }
 
         /**
-         * 事件类
+         * 事件对象类
          *
-         * @param {string} [type] 事件类型
-         * @param {Mixed} [args] 事件中的数据
          * @constructor
+         *
+         * 3个重载：
+         *      - `new Event(type)`
+         *      - `new Event(args)`
+         *      - `new Event(type, args)`
+         * 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
+         *
+         * @param {string | Object} [type] 事件类型
+         * @param {Mixed} args 事件中的数据
          */
         function Event(type, args) {
             // 3个重载：
@@ -220,8 +228,6 @@ define(
          * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
          * @param {Object} [options.extend] 提供事件对象的更多属性
          *
-         * @example
-         * 
          *     // 当`label`触发`click`事件时，自身也触发`click`事件
          *     Event.delegate(label, this, 'click');
          *
