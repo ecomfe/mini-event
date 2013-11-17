@@ -34,8 +34,8 @@ define(
             // - `new Event(args)`
             // - `new Event(type, args)`
 
-            // 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
-            if (arguments.length === 1 && typeof type === 'object') {
+            // 如果第1个参数是对象，则就当是`new Event(args)`形式
+            if (typeof type === 'object') {
                 args = type;
                 type = args.type;
             }
