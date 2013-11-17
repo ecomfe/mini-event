@@ -225,6 +225,29 @@ define(function (require) {
                 expect(handler.callCount).toBe(2);
             });
 
+            it('should not remove the handler if with different `thisObject`', function () {
+                var queue = new EventQueue();
+                var handler = jasmine.createSpy('handler');
+                var x = { x: 1 };
+                var y = { x: 2 };
+                queue.add(handler, { thisObject: x });
+                queue.add(handler, { thisObject: y });
+                queue.remove(handler, x);
+                queue.execute({}, null);
+                expect(handler.callCount).toBe(1);
+            });
+
+            it('should not remove handlers with custom `thieObject` if `thisObject` is not given as a argument', function () {
+                var queue = new EventQueue();
+                var handler = jasmine.createSpy('handler');
+                var x = { x: 1 };
+                queue.add(handler, { thisObject: x });
+                queue.add(handler);
+                queue.remove(handler);
+                queue.execute({}, null);
+                expect(handler.callCount).toBe(1);
+            });
+
             it('should treat a `false` handler as `preventDefault` & `stopPropagation`', function () {
                 var queue = new EventQueue();
                 queue.add(false);
