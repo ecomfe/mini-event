@@ -36,10 +36,10 @@ define(
             for (var i = 0; i < this.queue.length; i++) {
                 var item = this.queue[i];
                 // 同样的处理函数，不同的`this`对象，相当于外面`bind`了一把再添加，
-                // 此时认为这是完全不同的2个处理函数
+                // 此时认为这是完全不同的2个处理函数，但`null`和`undefined`认为是一样的
                 if (item
                     && item.handler === handler
-                    && (item.thisObject === wrapper.thisObject)
+                    && (item.thisObject == wrapper.thisObject)
                 ) {
                     return;
                 }
@@ -52,21 +52,28 @@ define(
          * 移除一个或全部处理函数
          *
          * @param {Function} [handler] 指定移除的处理函数，如不提供则移除全部函数
+         * @param {Mixed} [thisObject] 指定函数对应的`this`对象，
+         * 不提供则仅移除没有挂载`this`对象的那些处理函数
          */
-        EventQueue.prototype.remove = function (handler) {
+        EventQueue.prototype.remove = function (handler, thisObject) {
             // 如果没提供`handler`，则直接清空
             if (!handler) {
                 this.clear();
+                return;
             }
 
             for (var i = 0; i < this.queue.length; i++) {
                 var item = this.queue[i];
-                if (item && item.handler === handler) {
+
+                if (item
+                    && item.handler === handler
+                    && item.thisObject == thisObject
+                ) {
                     // 为了让`execute`过程中调用的`remove`工作正常，
                     // 这里不能用`splice`直接删除，仅设为`null`留下这个空间
                     this.queue[i] = null;
 
-                    // 不用担心重复，`add`的时候已经去重了
+                    // 完全符合条件的处理函数在`add`时会去重，因此这里肯定只有一个
                     return;
                 }
             }

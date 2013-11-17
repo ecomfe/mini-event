@@ -70,8 +70,10 @@ define(
          * 如果值为`*`仅会注销通过`*`为类型注册的事件，并不会将所有事件注销
          * @param {Function} [handler] 事件的处理函数，
          * 无此参数则注销`type`指定类型的所有事件处理函数
+         * @param {Mixed} [thisObject] 处理函数对应的`this`对象，
+         * 无此参数则注销`type`与`handler`符合要求，且未挂载`this`对象的处理函数
          */
-        EventTarget.prototype.un = function (type, handler) {
+        EventTarget.prototype.un = function (type, handler, thisObject) {
             if (!this.miniEventPool
                 || !this.miniEventPool.hasOwnProperty(type)
             ) {
@@ -79,7 +81,7 @@ define(
             }
 
             var queue = this.miniEventPool[type];
-            queue.remove(handler);
+            queue.remove(handler, thisObject);
         };
 
         /**
