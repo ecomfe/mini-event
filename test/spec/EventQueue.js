@@ -31,6 +31,16 @@ define(function (require) {
                 };
                 expect(function () { queue.add(handler, options); }).not.toThrow();
             });
+
+            it('should be safe to add `false` as handler', function () {
+                var queue = new EventQueue();
+                expect(function () { queue.add(false); }).not.toThrow();
+            });
+
+            it('should throw an error if a non-function and non-false handler is given', function () {
+                var queue = new EventQueue();
+                expect(function () { queue.add({}); }).toThrow();
+            });
         });
 
         describe('`remove` method', function () {
@@ -213,6 +223,31 @@ define(function (require) {
                 queue.add(handler, { thisObject: { x: 2 } });
                 queue.execute({}, null);
                 expect(handler.callCount).toBe(2);
+            });
+
+            it('should treat a `false` handler as `preventDefault` & `stopPropagation`', function () {
+                var queue = new EventQueue();
+                queue.add(false);
+                var event = {
+                    preventDefault: jasmine.createSpy('preventDefault'),
+                    stopPropagation: jasmine.createSpy('stopPropagation')
+                };
+                queue.execute(event);
+                expect(event.preventDefault).toHaveBeenCalled();
+                expect(event.stopPropagation).toHaveBeenCalled();
+            });
+
+            it('should be ok to remove a `false` handler', function () {
+                var queue = new EventQueue();
+                queue.add(false);
+                queue.remove(false);
+                var event = {
+                    preventDefault: jasmine.createSpy('preventDefault'),
+                    stopPropagation: jasmine.createSpy('stopPropagation')
+                };
+                queue.execute(event);
+                expect(event.preventDefault).not.toHaveBeenCalled();
+                expect(event.stopPropagation).not.toHaveBeenCalled();
             });
         });
     });
