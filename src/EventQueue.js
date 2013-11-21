@@ -39,12 +39,12 @@ define(
             lib.extend(wrapper, options);
 
             for (var i = 0; i < this.queue.length; i++) {
-                var item = this.queue[i];
+                var context = this.queue[i];
                 // 同样的处理函数，不同的`this`对象，相当于外面`bind`了一把再添加，
                 // 此时认为这是完全不同的2个处理函数，但`null`和`undefined`认为是一样的
-                if (item
-                    && item.handler === handler
-                    && (item.thisObject == wrapper.thisObject)
+                if (context
+                    && context.handler === handler
+                    && (context.thisObject == wrapper.thisObject)
                 ) {
                     return;
                 }
@@ -69,11 +69,11 @@ define(
             }
 
             for (var i = 0; i < this.queue.length; i++) {
-                var item = this.queue[i];
+                var context = this.queue[i];
 
-                if (item
-                    && item.handler === handler
-                    && item.thisObject == thisObject
+                if (context
+                    && context.handler === handler
+                    && context.thisObject == thisObject
                 ) {
                     // 为了让`execute`过程中调用的`remove`工作正常，
                     // 这里不能用`splice`直接删除，仅设为`null`留下这个空间
