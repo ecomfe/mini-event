@@ -146,7 +146,7 @@ define(
 
         // 复制事件属性的时候不复制这几个
         var EVENT_PROPERTY_BLACK_LIST = {
-            type: true,
+            type: true, target: true,
             preventDefault: true, isDefaultPrevented: true,
             stopPropagation: true, isPropagationStopped: true,
             stopImmediatePropagation: true, isImmediatePropagationStopped: true
@@ -265,6 +265,8 @@ define(
 
             var delegator = function (originalEvent) {
                 var event = Event.fromEvent(originalEvent, config);
+                // 修正`target`属性
+                event.target = target.object;
 
                 target.object.fire(target.type, event);
             };
