@@ -265,7 +265,8 @@ define(
 
             var delegator = function (originalEvent) {
                 var event = Event.fromEvent(originalEvent, config);
-                // 修正`target`属性
+                // 修正`type`和`target`属性
+                event.type = target.type;
                 event.target = target.object;
 
                 target.object.fire(target.type, event);
