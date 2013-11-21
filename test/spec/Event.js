@@ -237,6 +237,40 @@ define(function (require) {
                 expect(event.isDefaultPrevented()).toBe(true);
                 expect(event.isImmediatePropagationStopped()).toBe(true);
             });
+
+            it('should reset `target` property to target object', function () {
+                var source = new EventTarget();
+                var target = new EventTarget();
+                spyOn(source, 'on').andCallThrough();
+                spyOn(target, 'fire').andCallThrough();
+                var handler = function (event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                };
+                target.on('bar', handler);
+                Event.delegate(source, 'foo', target, 'bar', { syncState: true });
+                var event = source.fire('foo', { x: 1 });
+                expect(target.fire).toHaveBeenCalled();
+                expect(target.fire.mostRecentCall.args[1].target).toBe(target);
+            });
+
+            it('should reset `type` property to target type if it is different from source type', function () {
+                var source = new EventTarget();
+                var target = new EventTarget();
+                spyOn(source, 'on').andCallThrough();
+                spyOn(target, 'fire').andCallThrough();
+                var handler = function (event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                };
+                target.on('bar', handler);
+                Event.delegate(source, 'foo', target, 'bar', { syncState: true });
+                var event = source.fire('foo', { x: 1 });
+                expect(target.fire).toHaveBeenCalled();
+                expect(target.fire.mostRecentCall.args[1].type).toBe('bar');
+            });
         });
     });
 });
