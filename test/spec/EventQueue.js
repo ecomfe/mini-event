@@ -273,5 +273,37 @@ define(function (require) {
                 expect(event.stopPropagation).not.toHaveBeenCalled();
             });
         });
+
+        describe('`getLength` method', function () {
+            it('should exists', function () {
+                var queue = new EventQueue();
+                expect(queue.getLength).toBeOfType('function');
+            });
+
+            it('should have an alias method named `length`', function () {
+                var queue = new EventQueue();
+                expect(queue.length).toBe(queue.getLength);
+            });
+
+            it('should increment when an handler is added', function () {
+                var queue = new EventQueue();
+                queue.add(function () {});
+                expect(queue.getLength()).toBe(1);
+            });
+
+            it('should increment when `false` is added as a handler', function () {
+                var queue = new EventQueue();
+                queue.add(false);
+                expect(queue.getLength()).toBe(1);
+            });
+
+            it('should decrement when an handler is removed', function () {
+                var queue = new EventQueue();
+                var handler = function () {};
+                queue.add(handler);
+                queue.remove(handler);
+                expect(queue.getLength()).toBe(0);
+            });
+        });
     });
 });
