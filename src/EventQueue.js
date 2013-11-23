@@ -136,6 +136,21 @@ define(
         };
 
         /**
+         * 获取队列的长度
+         *
+         * @reutrn {number}
+         */
+        EventQueue.prototype.getLength = function () {
+            var count = 0;
+            for (var i = 0; i < this.queue.length; i++) {
+                if (this.queue[i]) {
+                    count++;
+                }
+            }
+            return count;
+        };
+
+        /**
          * 销毁
          */
         EventQueue.prototype.dispose = function () {
