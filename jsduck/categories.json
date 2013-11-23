@@ -7,11 +7,11 @@
                 "classes": [
                     "Event",
                     "EventQueue",
-                    "EventTarget"
+                    "EventTarget",
+                    "lib",
+                    "main"
                 ]
             }
         ]
-
-
     }
 ]

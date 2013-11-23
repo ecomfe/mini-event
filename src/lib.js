@@ -1,17 +1,20 @@
 /**
  * mini-event
  * Copyright 2013 Baidu Inc. All rights reserved.
- * 
+ *
+ * @ignore
  * @file 工具库，仅供内部使用
  * @author otakustay
  */
-
 define(
     function (require) {
         /**
-         * 工具库，内部模块
+         * 工具库模块
          *
-         * @type {Object}
+         * 此模块为内部使用，不保证API的稳定性， *不要* 直接引用此模块
+         *
+         * @class lib
+         * @singleton
          */
         var lib = {};
 

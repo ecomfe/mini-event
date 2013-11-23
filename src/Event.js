@@ -16,24 +16,18 @@ define(
         /**
          * 事件对象类
          *
-         * @constructor
-         *
          * 3个重载：
          *      - `new Event(type)`
          *      - `new Event(args)`
          *      - `new Event(type, args)`
          * 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
          *
-         * @param {string | Object} [type] 事件类型
-         * @param {Mixed} [args] 事件中的数据
+         * @constructor
+         * @param {string | Mixed} [type] 事件类型
+         * @param {Mixed} [args] 事件中的数据，如果此参数为一个对象，
+         * 则将参数扩展到`Event`实例上。如果参数是非对象类型，则作为实例的`data`属性使用
          */
         function Event(type, args) {
-            // 3个重载：
-            //
-            // - `new Event(type)`
-            // - `new Event(args)`
-            // - `new Event(type, args)`
-
             // 如果第1个参数是对象，则就当是`new Event(args)`形式
             if (typeof type === 'object') {
                 args = type;
@@ -105,6 +99,7 @@ define(
          * @param {string} [type] 事件类型
          * @param {Mixed} [args] 事件数据
          * @return {Event}
+         * @static
          */
         Event.fromDOMEvent = function (domEvent, type, args) {
             domEvent = domEvent || globalWindow.event;
@@ -160,8 +155,9 @@ define(
          * @param {string} [options.type] 新事件对象的类型，不提供则保留原类型
          * @param {boolean} [options.preserveData=false] 是否保留事件的信息
          * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
-         * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
+         * 状态包括 **阻止传播** 、 **立即阻止传播** 和 **阻止默认行为**
          * @param {Object} [options.extend] 提供事件对象的更多属性
+         * @static
          */
         Event.fromEvent = function (originalEvent, options) {
             var defaults = {
@@ -233,6 +229,7 @@ define(
          *
          *     // 当`label`触发`click`事件时，自身触发`labelclick`事件
          *     Event.delegate(label, 'click', this, 'labelclick');
+         * @static
          */
         Event.delegate = function (from, fromType, to, toType, options) {
             // 重载：

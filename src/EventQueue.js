@@ -22,10 +22,11 @@ define(
         /**
          * 添加一个事件处理函数
          *
-         * @param {Function | false} handler 处理函数
+         * @param {Function | boolean} handler 处理函数，
+         * 可以传递`false`作为特殊的处理函数，参考{@link EventTarget#on}
          * @param {Object} [options] 相关配置
          * @param {Mixed} [options.thisObject] 执行处理函数时的`this`对象
-         * @param {boolean} [options.once] 设定函数仅执行一次
+         * @param {boolean} [options.once=false] 设定函数仅执行一次
          */
         EventQueue.prototype.add = function (handler, options) {
             if (handler !== false && typeof handler !== 'function') {
@@ -56,8 +57,8 @@ define(
         /**
          * 移除一个或全部处理函数
          *
-         * @param {Function | false} [handler] 指定移除的处理函数，
-         * 如不提供则移除全部处理函数
+         * @param {Function | boolean} [handler] 指定移除的处理函数，
+         * 如不提供则移除全部处理函数，可以传递`false`作为特殊的处理函数
          * @param {Mixed} [thisObject] 指定函数对应的`this`对象，
          * 不提供则仅移除没有挂载`this`对象的那些处理函数
          */

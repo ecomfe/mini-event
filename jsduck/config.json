@@ -9,6 +9,8 @@
     "--": [
         "../src/Event.js",
         "../src/EventQueue.js",
-        "../src/EventTarget.js"
+        "../src/EventTarget.js",
+        "../src/main.js",
+        "../src/lib.js"
     ]
 }
