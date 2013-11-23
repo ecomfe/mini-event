@@ -11,6 +11,22 @@ define(
         var lib = require('./lib');
 
         /**
+         * 判断已有的一个事件上下文对象是否和提供的参数等同
+         *
+         * @param {Object} context 在队列中已有的事件上下文对象
+         * @param {Function | boolean} handler 处理函数，可以是`false`
+         * @param {Mixed} [thisObject] 处理函数的`this`对象
+         * @return {boolean}
+         * @ignore
+         */
+        function isContextIdentical(context, handler, thisObject) {
+            // `thisObject`为`null`和`undefined`时认为等同，所以用`==`
+            return context
+                && context.handler === handler
+                && context.thisObject == thisObject;
+        }
+
+        /**
          * 事件队列
          *
          * @constructor
@@ -43,10 +59,7 @@ define(
                 var context = this.queue[i];
                 // 同样的处理函数，不同的`this`对象，相当于外面`bind`了一把再添加，
                 // 此时认为这是完全不同的2个处理函数，但`null`和`undefined`认为是一样的
-                if (context
-                    && context.handler === handler
-                    && (context.thisObject == wrapper.thisObject)
-                ) {
+                if (isContextIdentical(context, handler, wrapper.thisObject)) {
                     return;
                 }
             }
@@ -72,10 +85,7 @@ define(
             for (var i = 0; i < this.queue.length; i++) {
                 var context = this.queue[i];
 
-                if (context
-                    && context.handler === handler
-                    && context.thisObject == thisObject
-                ) {
+                if (isContextIdentical(context, handler, thisObject)) {
                     // 为了让`execute`过程中调用的`remove`工作正常，
                     // 这里不能用`splice`直接删除，仅设为`null`留下这个空间
                     this.queue[i] = null;
@@ -116,6 +126,7 @@ define(
 
                 var handler = context.handler;
 
+                // `false`等同于两个方法的调用
                 if (handler === false) {
                     if (typeof event.preventDefault === 'function') {
                         event.preventDefault();
