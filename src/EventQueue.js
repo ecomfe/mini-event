@@ -151,6 +151,14 @@ define(
         };
 
         /**
+         * 获取队列的长度，与{@link EventQueue#getLength}相同
+         *
+         * @method
+         * @reutrn {number}
+         */
+        EventQueue.prototype.length = EventQueue.prototype.getLength;
+
+        /**
          * 销毁
          */
         EventQueue.prototype.dispose = function () {
