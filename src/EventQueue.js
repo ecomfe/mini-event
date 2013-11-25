@@ -97,7 +97,7 @@ define(
         };
 
         /**
-         * 移除全部处理函数
+         * 移除全部处理函数，如果队列执行时调用这个函数，会导致剩余的处理函数不再执行
          */
         EventQueue.prototype.clear = function () {
             this.queue.length = 0;
@@ -110,14 +110,17 @@ define(
          * @param {Mixed} thisObject 函数执行时的`this`对象
          */
         EventQueue.prototype.execute = function (event, thisObject) {
-            for (var i = 0; i < this.queue.length; i++) {
+            // 如果执行过程中销毁，`dispose`会把`this.queue`弄掉，所以这里留一个引用，
+            // 在`dispose`中会额外把数组清空，因此不用担心后续的函数会执行
+            var queue = this.queue;
+            for (var i = 0; i < queue.length; i++) {
                 if (typeof event.isImmediatePropagationStopped === 'function'
                     && event.isImmediatePropagationStopped()
                 ) {
                     return;
                 }
 
-                var context = this.queue[i];
+                var context = queue[i];
 
                 // 移除事件时设置为`null`，因此可能无值
                 if (!context) {
@@ -171,8 +174,12 @@ define(
 
         /**
          * 销毁
+         *
+         * 如果在队列执行的过程中销毁了对象，则在对象销毁后，剩余的处理函数不会再执行了
          */
         EventQueue.prototype.dispose = function () {
+            // 在执行过程中被销毁的情况下，这里`length`置为0，循环就走不下去了
+            this.clear();
             this.queue = null;
         };
 

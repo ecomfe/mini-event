@@ -272,6 +272,15 @@ define(function (require) {
                 expect(event.preventDefault).not.toHaveBeenCalled();
                 expect(event.stopPropagation).not.toHaveBeenCalled();
             });
+
+            it('should be safe to dispose the queue when executing, all remaining handlers should not be called', function () {
+                var queue = new EventQueue();
+                queue.add(function () { queue.dispose(); });
+                var handler = jasmine.createSpy('handler');
+                queue.add(handler);
+                expect(function () { queue.execute({}); }).not.toThrow();
+                expect(handler).not.toHaveBeenCalled();
+            });
         });
 
         describe('`getLength` method', function () {
