@@ -45,7 +45,6 @@ define(
          * @constructor
          */
         function EventTarget() {
-            this.miniEventPool = {};
         }
 
         /**
@@ -153,16 +152,16 @@ define(
                 inlineHandler.call(this, event);
             }
 
-            if (!this.miniEventPool) {
-                return event;
-            }
-
-            if (this.miniEventPool.hasOwnProperty(type)) {
+            // 在此处可能没有`miniEventPool`，这是指对象整个就没初始化，
+            // 即一个事件也没注册过就`fire`了，这是正常现象
+            if (this.miniEventPool && this.miniEventPool.hasOwnProperty(type)) {
                 var queue = this.miniEventPool[type];
                 queue.execute(event, this);
             }
 
-            if (this.miniEventPool.hasOwnProperty('*')) {
+            // 同时也有可能在上面执行标准事件队列的时候，把这个`EventTarget`给销毁了，
+            // 此时`miniEventPool`就没了，这种情况是正常的不能抛异常，要特别处理
+            if (this.miniEventPool && this.miniEventPool.hasOwnProperty('*')) {
                 var globalQueue = this.miniEventPool['*'];
                 globalQueue.execute(event, this);
             }

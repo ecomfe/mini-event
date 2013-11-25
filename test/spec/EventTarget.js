@@ -223,7 +223,25 @@ define(function() {
                 eventTarget.fire('change');
                 expect(handlerA.mostRecentCall.object).toBe(eventTarget);
                 expect(handlerB.mostRecentCall.object).toBe(eventTarget);
-            })
+            });
+
+            it('should be safe to dispose itself when executing handlers, all remaining handlers should not be called', function () {
+                var eventTarget = new EventTarget();
+                eventTarget.on('change', function () { eventTarget.destroyEvents(); });
+                var handler = jasmine.createSpy('handler');
+                eventTarget.on('change', handler);
+                expect(function () { eventTarget.fire('change'); }).not.toThrow();
+                expect(handler).not.toHaveBeenCalled();
+            });
+
+            it('should not execute global event handlers (those registered with `*`) when disposed on executing', function () {
+                var eventTarget = new EventTarget();
+                eventTarget.on('change', function () { eventTarget.destroyEvents(); });
+                var handler = jasmine.createSpy('handler');
+                eventTarget.on('*', handler);
+                expect(function () { eventTarget.fire('change'); }).not.toThrow();
+                expect(handler).not.toHaveBeenCalled();
+            });
         });
 
         describe('`destroyEvents` method', function () {
