@@ -1,6 +1,6 @@
 {
     "name": "mini-event",
-    "version": "0.9.0",
+    "version": "1.0.0",
     "description": "A simple and dedicated library to provide event components",
     "main": "main",
     "maintainers": [
