@@ -144,7 +144,7 @@ define(
                 }
 
                 if (context.once) {
-                    this.remove(context.handler);
+                    this.remove(context.handler, context.thisObject);
                 }
             }
         };
