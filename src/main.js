@@ -20,7 +20,7 @@ define(
              *
              * @type {string}
              */
-            version: '1.0.1',
+            version: '1.0.2',
 
             /**
              * {@link Event}类
