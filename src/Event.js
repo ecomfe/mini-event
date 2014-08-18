@@ -10,8 +10,12 @@ define(
     function (require) {
         var lib = require('./lib');
 
-        function returnTrue() { return true; }
-        function returnFalse() { return false; }
+        function returnTrue() {
+            return true;
+        }
+        function returnFalse() {
+            return false;
+        }
 
         function isObject(target) {
             return Object.prototype.toString.call(target) === '[object Object]';
@@ -94,7 +98,9 @@ define(
             this.stopPropagation();
         };
 
-        var globalWindow = (function () { return this; }());
+        var globalWindow = (function () {
+            return this;
+        }());
 
         /**
          * 从DOM事件对象生成一个Event对象
