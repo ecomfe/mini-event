@@ -13,6 +13,10 @@ define(
         function returnTrue() { return true; }
         function returnFalse() { return false; }
 
+        function isObject(target) {
+            return Object.prototype.toString.call(target) === '[object Object]';
+        }
+
         /**
          * 事件对象类
          *
@@ -34,7 +38,7 @@ define(
                 type = args.type;
             }
 
-            if (typeof args === 'object') {
+            if (isObject(args)) {
                 lib.extend(this, args);
             }
             else if (args) {
@@ -233,7 +237,7 @@ define(
          */
         Event.delegate = function (from, fromType, to, toType, options) {
             // 重载：
-            // 
+            //
             // 1. `.delegate(from, fromType, to, toType)`
             // 2. `.delegate(from, fromType, to, toType, options)`
             // 3. `.delegate(from, to, type)`
