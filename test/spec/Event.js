@@ -34,6 +34,18 @@ define(function (require) {
                 expect(event.type).toBe('foo');
                 expect(event.x).toBe(1);
             });
+
+            it('should accept non-object args as `data` property for event instance', function () {
+                expect((new Event('foo', 1)).data).toBe(1);
+                expect((new Event('foo', false)).data).toBe(false);
+                expect((new Event('foo', 0)).data).toBe(0);
+                expect((new Event('foo', null)).data).toBe(null);
+            });
+
+            it('should not add `data` property if args is undefined', function () {
+                expect((new Event('foo')).data).toBeUndefined();
+                expect((new Event('foo', undefined)).data).toBeUndefined();
+            });
         });
 
         describe('`preventDefault` method', function () {
