@@ -45,7 +45,7 @@ define(
             if (isObject(args)) {
                 lib.extend(this, args);
             }
-            else if (args) {
+            else if (args !== undefined) {
                 this.data = args;
             }
 
