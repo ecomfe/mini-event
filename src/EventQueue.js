@@ -23,7 +23,9 @@ define(
             // `thisObject`为`null`和`undefined`时认为等同，所以用`==`
             return context
                 && context.handler === handler
+                /* eslint-disable eqeqeq */
                 && context.thisObject == thisObject;
+                /* eslint-enable eqeqeq */
         }
 
         /**
@@ -152,7 +154,7 @@ define(
         /**
          * 获取队列的长度
          *
-         * @reutrn {number}
+         * @return {number}
          */
         EventQueue.prototype.getLength = function () {
             var count = 0;
@@ -168,7 +170,7 @@ define(
          * 获取队列的长度，与{@link EventQueue#getLength}相同
          *
          * @method
-         * @reutrn {number}
+         * @return {number}
          */
         EventQueue.prototype.length = EventQueue.prototype.getLength;
 

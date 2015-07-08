@@ -22,7 +22,7 @@ define(
          * 扩展对象
          *
          * @param {Object} source 源对象
-         * @param {Object...} additions 扩展的对象
+         * @param {Object} [additions...] 扩展的对象
          * @return {Object} 返回扩展后的`source`对象
          */
         lib.extend = function (source) {

@@ -167,6 +167,7 @@ define(
          * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
          * 状态包括 **阻止传播** 、 **立即阻止传播** 和 **阻止默认行为**
          * @param {Object} [options.extend] 提供事件对象的更多属性
+         * @return {Event}
          * @static
          */
         Event.fromEvent = function (originalEvent, options) {
@@ -260,7 +261,7 @@ define(
                 type: useDifferentType ? toType : to
             };
             var config = useDifferentType ? options : toType;
-            config = lib.extend({ preserveData: false }, config);
+            config = lib.extend({preserveData: false}, config);
 
             // 如果提供方不能注册事件，或接收方不能触发事件，那就不用玩了
             if (typeof source.object.on !== 'function'
