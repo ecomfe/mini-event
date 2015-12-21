@@ -42,22 +42,20 @@ module.exports = {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-        // 'Chrome',
+        'Chrome',
         // 'Firefox',
         // 'Safari',
-        'PhantomJS'
+        // 'PhantomJS'
     ],
 
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true,
-    // singleRun: false,
+    // singleRun: true,
+    singleRun: false,
 
-
-    // Custom HTML templates
-    // context | debug | runner
     templates: {
-        // context: 'context.html'
-    }
+        context: 'context.html',
+        debug: 'debug.html'
+    },
 };
