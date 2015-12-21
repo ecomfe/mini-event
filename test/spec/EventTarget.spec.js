@@ -1,20 +1,20 @@
 define(function() {
-    var EventTarget = require('mini-event/EventTarget');
-    var Event = require('mini-event/Event');
+    var EventTarget = require('EventTarget');
+    var Event = require('Event');
 
     describe('EventTarget', function() {
         it('should be a construtor', function () {
-            expect(EventTarget).toBeOfType('function');
+            expect(typeof EventTarget).toBe('function');
         });
 
         it('should be instantiable', function () {
-            expect(new EventTarget()).toBeOfType('object');
+            expect(typeof new EventTarget()).toBe('object');
         });
-        
+
         describe('`on` method', function() {
             it('should exist', function () {
                 var eventTarget = new EventTarget();
-                expect(eventTarget.on).toBeOfType('function');
+                expect(typeof eventTarget.on).toBe('function');
             });
 
             it('should be safe to attach a handler for a named event', function () {
@@ -44,7 +44,7 @@ define(function() {
         describe('`once` method', function () {
             it('should exist', function () {
                 var eventTarget = new EventTarget();
-                expect(eventTarget.once).toBeOfType('function');
+                expect(typeof eventTarget.once).toBe('function');
             });
 
             it('should be safe to attach a handler for a named event', function () {
@@ -73,7 +73,7 @@ define(function() {
         describe('`un` method', function() {
             it('should exist', function () {
                 var eventTarget = new EventTarget();
-                expect(eventTarget.un).toBeOfType('function');
+                expect(typeof eventTarget.un).toBe('function');
             });
 
             it('should be safe to remove an attached handler', function () {
@@ -105,7 +105,7 @@ define(function() {
         describe('`fire` method', function() {
             it('should exist', function () {
                 var eventTarget = new EventTarget();
-                expect(eventTarget.fire).toBeOfType('function');
+                expect(typeof eventTarget.fire).toBe('function');
             });
 
             it('should execute all named event handlers', function () {
@@ -187,7 +187,7 @@ define(function() {
                 var handler = jasmine.createSpy('handler');
                 eventTarget.on('change', handler);
                 var event = eventTarget.fire('change');
-                expect(handler.mostRecentCall.args[0]).toBe(event);
+                expect(handler.calls.mostRecent().args[0]).toBe(event);
             });
 
             it('should call handlers specified as `once` only once', function () {
@@ -198,8 +198,8 @@ define(function() {
                 eventTarget.once('change', handlerB);
                 eventTarget.fire('change');
                 eventTarget.fire('change');
-                expect(handlerA.callCount).toBe(1);
-                expect(handlerB.callCount).toBe(1);
+                expect(handlerA.calls.count()).toBe(1);
+                expect(handlerB.calls.count()).toBe(1);
             });
 
             it('should pass the `thisObject` as handler\'s `this`', function () {
@@ -210,8 +210,8 @@ define(function() {
                 eventTarget.on('change', handlerA, thisObject);
                 eventTarget.on('change', handlerB, null, { thisObject: thisObject });
                 eventTarget.fire('change');
-                expect(handlerA.mostRecentCall.object).toBe(thisObject);
-                expect(handlerB.mostRecentCall.object).toBe(thisObject);
+                expect(handlerA.calls.mostRecent().object).toBe(thisObject);
+                expect(handlerB.calls.mostRecent().object).toBe(thisObject);
             });
 
             it('should pass the EventTarget object itself as `this` if `thisObject` is given a null value', function () {
@@ -221,8 +221,8 @@ define(function() {
                 eventTarget.on('change', handlerA, null);
                 eventTarget.on('change', handlerB, undefined);
                 eventTarget.fire('change');
-                expect(handlerA.mostRecentCall.object).toBe(eventTarget);
-                expect(handlerB.mostRecentCall.object).toBe(eventTarget);
+                expect(handlerA.calls.mostRecent().object).toBe(eventTarget);
+                expect(handlerB.calls.mostRecent().object).toBe(eventTarget);
             });
 
             it('should be safe to dispose itself when executing handlers, all remaining handlers should not be called', function () {
@@ -247,7 +247,7 @@ define(function() {
         describe('`destroyEvents` method', function () {
             it('should exist', function () {
                 var eventTarget = new EventTarget();
-                expect(eventTarget.destroyEvents).toBeOfType('function');
+                expect(typeof eventTarget.destroyEvents).toBe('function');
             });
 
             it('should remove all events', function () {
@@ -267,7 +267,7 @@ define(function() {
 
         describe('`enable` method', function() {
             it('should exist', function () {
-                expect(EventTarget.enable).toBeOfType('function');
+                expect(typeof EventTarget.enable).toBe('function');
             });
 
             it('make a Object has the function of EventTarget without inherit', function() {

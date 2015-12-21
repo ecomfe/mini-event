@@ -1,19 +1,19 @@
 define(function (require) {
-    var EventQueue = require('mini-event/EventQueue');
+    var EventQueue = require('EventQueue');
 
     describe('EventQueue', function () {
         it('should be a constructor', function () {
-            expect(EventQueue).toBeOfType('function');
+            expect(typeof EventQueue).toBe('function');
         });
 
         it('should be instantiable', function () {
-            expect(new EventQueue()).toBeOfType('object');
+            expect(typeof new EventQueue()).toBe('object');
         });
 
         describe('`add` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
-                expect(queue.add).toBeOfType('function');
+                expect(typeof queue.add).toBe('function');
             });
 
             it('should be safe to add a function handler', function () {
@@ -46,7 +46,7 @@ define(function (require) {
         describe('`remove` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
-                expect(queue.remove).toBeOfType('function');
+                expect(typeof queue.remove).toBe('function');
             });
 
             it('should be safe to remove an attached handler', function () {
@@ -71,7 +71,7 @@ define(function (require) {
         describe('`clear` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
-                expect(queue.clear).toBeOfType('function');
+                expect(typeof queue.clear).toBe('function');
             });
 
             it('should be safe to clear the queue', function () {
@@ -83,7 +83,7 @@ define(function (require) {
         describe('`exeute` method', function () {
             it('should exist', function () {
                 var queue = new EventQueue();
-                expect(queue.execute).toBeOfType('function');
+                expect(typeof queue.execute).toBe('function');
             });
 
             it('should pass the `event` object to handler', function () {
@@ -93,7 +93,7 @@ define(function (require) {
                 var event = {};
                 queue.execute(event, null);
                 expect(handler).toHaveBeenCalled();
-                expect(handler.mostRecentCall.args[0]).toBe(event);
+                expect(handler.calls.mostRecent().args[0]).toBe(event);
             });
 
             it('should pass the `thisObject` object as `this` to handler', function () {
@@ -103,7 +103,7 @@ define(function (require) {
                 var thisObject = {};
                 queue.execute({}, thisObject);
                 expect(handler).toHaveBeenCalled();
-                expect(handler.mostRecentCall.object).toBe(thisObject);
+                expect(handler.calls.mostRecent().object).toBe(thisObject);
             });
 
             it('should use the `thisObject` specified when add instead of the given one', function () {
@@ -113,7 +113,7 @@ define(function (require) {
                 queue.add(handler, { thisObject: thisObject });
                 queue.execute({}, null);
                 expect(handler).toHaveBeenCalled();
-                expect(handler.mostRecentCall.object).toBe(thisObject);
+                expect(handler.calls.mostRecent().object).toBe(thisObject);
             });
 
             it('should execute attached handler by attaching order', function () {
@@ -173,12 +173,12 @@ define(function (require) {
                 queue.add(handler, { once: true });
                 queue.execute({}, null);
                 queue.execute({}, null);
-                expect(handler.callCount).toBe(1);
+                expect(handler.calls.count()).toBe(1);
             });
 
             it('should keep all handler in order and executed even one handler is removed when executing', function () {
                 var queue = new EventQueue();
-                var handlerA = jasmine.createSpy('handlerA').andCallFake(function () { queue.remove(handlerB); });
+                var handlerA = jasmine.createSpy('handlerA').and.callFake(function () { queue.remove(handlerB); });
                 var handlerB = jasmine.createSpy('handlerB');
                 var handlerC = jasmine.createSpy('handlerC');
                 var handlerD = jasmine.createSpy('handlerD');
@@ -213,7 +213,7 @@ define(function (require) {
                 queue.add(handler);
                 queue.add(handler);
                 queue.execute({}, null);
-                expect(handler.callCount).toBe(1);
+                expect(handler.calls.count()).toBe(1);
             });
 
             it('should treated the same handler with different `thisObject` to be different', function () {
@@ -222,7 +222,7 @@ define(function (require) {
                 queue.add(handler, { thisObject: { x: 1 } });
                 queue.add(handler, { thisObject: { x: 2 } });
                 queue.execute({}, null);
-                expect(handler.callCount).toBe(2);
+                expect(handler.calls.count()).toBe(2);
             });
 
             it('should not remove the handler if with different `thisObject`', function () {
@@ -234,7 +234,7 @@ define(function (require) {
                 queue.add(handler, { thisObject: y });
                 queue.remove(handler, x);
                 queue.execute({}, null);
-                expect(handler.callCount).toBe(1);
+                expect(handler.calls.count()).toBe(1);
             });
 
             it('should not remove handlers with custom `thieObject` if `thisObject` is not given as a argument', function () {
@@ -245,7 +245,7 @@ define(function (require) {
                 queue.add(handler);
                 queue.remove(handler);
                 queue.execute({}, null);
-                expect(handler.callCount).toBe(1);
+                expect(handler.calls.count()).toBe(1);
             });
 
             it('should treat a `false` handler as `preventDefault` & `stopPropagation`', function () {
@@ -286,7 +286,7 @@ define(function (require) {
         describe('`getLength` method', function () {
             it('should exists', function () {
                 var queue = new EventQueue();
-                expect(queue.getLength).toBeOfType('function');
+                expect(typeof queue.getLength).toBe('function');
             });
 
             it('should have an alias method named `length`', function () {
