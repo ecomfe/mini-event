@@ -74,12 +74,6 @@ describe('Event', () => {
         });
     });
 
-    describe('`fromDOMEvent` method', () => {
-        it('should exists', () => {
-            expect(typeof Event.fromDOMEvent).toBe('function');
-        });
-    });
-
     describe('`fromEvent` method', () => {
         it('should exists', () => {
             expect(typeof Event.fromEvent).toBe('function');

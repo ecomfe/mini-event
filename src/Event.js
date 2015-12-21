@@ -98,57 +98,6 @@ define(
             this.stopPropagation();
         };
 
-        var globalWindow = (function () {
-            return this;
-        }());
-
-        /**
-         * 从DOM事件对象生成一个Event对象
-         *
-         * @param {Event} domEvent DOM事件对象
-         * @param {string} [type] 事件类型
-         * @param {Mixed} [args] 事件数据
-         * @return {Event}
-         * @static
-         */
-        Event.fromDOMEvent = function (domEvent, type, args) {
-            domEvent = domEvent || globalWindow.event;
-
-            var event = new Event(type, args);
-
-            event.preventDefault = function () {
-                if (domEvent.preventDefault) {
-                    domEvent.preventDefault();
-                }
-                else {
-                    domEvent.returnValue = false;
-                }
-
-                Event.prototype.preventDefault.call(this);
-            };
-
-            event.stopPropagation = function () {
-                if (domEvent.stopPropagation) {
-                    domEvent.stopPropagation();
-                }
-                else {
-                    domEvent.cancelBubble = true;
-                }
-
-                Event.prototype.stopPropagation.call(this);
-            };
-
-            event.stopImmediatePropagation = function () {
-                if (domEvent.stopImmediatePropagation) {
-                    domEvent.stopImmediatePropagation();
-                }
-
-                Event.prototype.stopImmediatePropagation.call(this);
-            };
-
-            return event;
-        };
-
         // 复制事件属性的时候不复制这几个
         var EVENT_PROPERTY_BLACK_LIST = {
             type: true, target: true,
