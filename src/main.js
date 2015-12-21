@@ -20,7 +20,7 @@ define(
              *
              * @type {string}
              */
-            version: '1.0.2',
+            version: '2.0.0',
 
             /**
              * {@link Event}类
@@ -28,11 +28,6 @@ define(
              * @type {Function}
              */
             Event: Event,
-
-            /**
-             * 参考{@link Event#fromDOMEvent}
-             */
-            fromDOMEvent: Event.fromDOMEvent,
 
             /**
              * 参考{@link Event#fromEvent}
