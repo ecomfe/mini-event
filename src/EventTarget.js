@@ -144,13 +144,6 @@ export default class EventTarget {
             : new Event(type, args);
         event.target = this;
 
-        // 无论`this[EVENT_POOL]`有没有被初始化，
-        // 如果有直接挂在对象上的方法是要触发的
-        let inlineHandler = this['on' + type];
-        if (typeof inlineHandler === 'function') {
-            inlineHandler.call(this, event);
-        }
-
         // 在此处可能没有[EVENT_POOL]`，这是指对象整个就没初始化，
         // 即一个事件也没注册过就`fire`了，这是正常现象
         if (this[EVENT_POOL] && this[EVENT_POOL].hasOwnProperty(type)) {

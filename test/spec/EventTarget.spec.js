@@ -174,13 +174,6 @@ describe('EventTarget', () => {
             expect(event.x).toBe(1);
         });
 
-        it('should call inline handler', () => {
-            let eventTarget = new EventTarget();
-            eventTarget.onchange = jasmine.createSpy();
-            eventTarget.fire('change');
-            expect(eventTarget.onchange).toHaveBeenCalled();
-        });
-
         it('should pass the event object to handlers', () => {
             let eventTarget = new EventTarget();
             let handler = jasmine.createSpy('handler');
