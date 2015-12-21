@@ -282,27 +282,27 @@ describe('EventQueue', () => {
         });
     });
 
-    describe('`getLength` method', () => {
+    describe('`length` method', () => {
         it('should exists', () => {
             let queue = new EventQueue();
-            expect(typeof queue.getLength).toBe('function');
+            expect(typeof queue.length).toBe('function');
         });
 
         it('should have an alias method named `length`', () => {
             let queue = new EventQueue();
-            expect(queue.length).toBe(queue.getLength);
+            expect(queue.length).toBe(queue.length);
         });
 
         it('should increment when an handler is added', () => {
             let queue = new EventQueue();
             queue.add(() => {});
-            expect(queue.getLength()).toBe(1);
+            expect(queue.length()).toBe(1);
         });
 
         it('should increment when `false` is added as a handler', () => {
             let queue = new EventQueue();
             queue.add(false);
-            expect(queue.getLength()).toBe(1);
+            expect(queue.length()).toBe(1);
         });
 
         it('should decrement when an handler is removed', () => {
@@ -310,7 +310,7 @@ describe('EventQueue', () => {
             let handler = () => {};
             queue.add(handler);
             queue.remove(handler);
-            expect(queue.getLength()).toBe(0);
+            expect(queue.length()).toBe(0);
         });
     });
 });

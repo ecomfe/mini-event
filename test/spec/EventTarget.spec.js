@@ -263,19 +263,4 @@ describe('EventTarget', () => {
             expect(() => eventTarget.destroyEvents()).not.toThrow();
         });
     });
-
-    describe('`enable` method', () => {
-        it('should exist', () => {
-            expect(typeof EventTarget.enable).toBe('function');
-        });
-
-        it('make a Object has the function of EventTarget without inherit', () => {
-            let obj = {};
-            EventTarget.enable(obj);
-            expect(obj.on).toBe(EventTarget.prototype.on);
-            expect(obj.once).toBe(EventTarget.prototype.once);
-            expect(obj.un).toBe(EventTarget.prototype.un);
-            expect(obj.fire).toBe(EventTarget.prototype.fire);
-        });
-    });
 });

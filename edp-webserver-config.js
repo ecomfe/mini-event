@@ -21,7 +21,7 @@ exports.getLocations = function () {
         {
             // All source and spec files
             key: 'source',
-            location: /^\/(test)(\/[^\/]+)*\.js\?/,
+            location: /^\/(src|test)(\/[^\/]+)*\.js\?/,
             handler: [
                 babel(BABEL_OPTIONS)
             ]
