@@ -9,8 +9,8 @@ mini-event是一个简单的工具库，用于为任何系统提供事件相关�
 ## 文档
 
     cd {mini-event}
-    sudo gem install jsduck
-    jsduck --config=jsduck/config.json
+    npm i -g esdoc
+    esdoc -c esdoc.json
     open doc/index.html
 
 ## 事件类型

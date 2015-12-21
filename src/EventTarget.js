@@ -19,32 +19,36 @@ const EVENT_POOL = Symbol('eventPool');
  *
  * 可以让某个类继承此类，获得事件的相关功能：
  *
- *     function MyClass() {
- *         // 此处可以不调用EventTarget构造函数
- *     }
+ * ```js
+ * function MyClass() {
+ *     // 此处可以不调用EventTarget构造函数
+ * }
  *
- *     inherits(MyClass, EventTarget);
+ * inherits(MyClass, EventTarget);
  *
- *     let instance = new MyClass();
- *     instance.on('foo', executeFoo);
- *     instance.fire('foo', { bar: 'Hello World' });
+ * let instance = new MyClass();
+ * instance.on('foo', executeFoo);
+ * instance.fire('foo', { bar: 'Hello World' });
+ * ```
  *
  * 当然也可以使用`Object.create`方法：
  *
- *     let instance = Object.create(EventTarget.prototype);
- *     instance.on('foo', executeFoo);
- *     instance.fire('foo', { bar: 'Hello World' });
+ * ```js
+ * let instance = Object.create(EventTarget.prototype);
+ * instance.on('foo', executeFoo);
+ * instance.fire('foo', { bar: 'Hello World' });
+ * ```
  *
  * 还可以使用`enable`方法让一个静态的对象拥有事件功能：
  *
- *     let instance = {}
- *     EventTarget.enable(instance);
+ * ```js
+ * let instance = {}
+ * EventTarget.enable(instance);
  *
- *     // 同样可以使用事件
- *     instance.on('foo', executeFoo);
- *     instance.fire('foo', { bar: 'Hello World' });
- *
- * @constructor
+ * // 同样可以使用事件
+ * instance.on('foo', executeFoo);
+ * instance.fire('foo', { bar: 'Hello World' });
+ * ```
  */
 export default class EventTarget {
 
@@ -55,7 +59,7 @@ export default class EventTarget {
      * @param {Function | boolean} fn 事件的处理函数，
      * 特殊地，如果此参数为`false`，将被视为特殊的事件处理函数，
      * 其效果等于`preventDefault()`及`stopPropagation()`
-     * @param {Mixed} [thisObject] 事件执行时`this`对象
+     * @param {*} [thisObject] 事件执行时`this`对象
      * @param {Object} [options] 事件相关配置项
      * @param {boolean} [options.once=false] 控制事件仅执行一次
      */
@@ -83,7 +87,7 @@ export default class EventTarget {
      *
      * @param {string} type 事件的类型
      * @param {Function} fn 事件的处理函数
-     * @param {Mixed} [thisObject] 事件执行时`this`对象
+     * @param {*} [thisObject] 事件执行时`this`对象
      * @param {Object} [options] 事件相关配置项
      */
     once(type, fn, thisObject, options) {
@@ -95,12 +99,9 @@ export default class EventTarget {
     /**
      * 注销一个事件处理函数
      *
-     * @param {string} type 事件的类型，
-     * 如果值为`*`仅会注销通过`*`为类型注册的事件，并不会将所有事件注销
-     * @param {Function} [handler] 事件的处理函数，
-     * 无此参数则注销`type`指定类型的所有事件处理函数
-     * @param {Mixed} [thisObject] 处理函数对应的`this`对象，
-     * 无此参数则注销`type`与`handler`符合要求，且未挂载`this`对象的处理函数
+     * @param {string} type 事件的类型，如果值为`*`仅会注销通过`*`为类型注册的事件，并不会将所有事件注销
+     * @param {Function} [handler] 事件的处理函数，无此参数则注销`type`指定类型的所有事件处理函数
+     * @param {*} [thisObject] 处理函数对应的`this`对象，无此参数则注销`type`与`handler`符合要求，且无`this`对象的处理函数
      */
     un(type, handler, thisObject) {
         if (!this[EVENT_POOL] || !this[EVENT_POOL].hasOwnProperty(type)) {
@@ -120,8 +121,8 @@ export default class EventTarget {
      * - `.fire(args)`
      * - `.fire(type, args)`
      *
-     * @param {string | Mixed} type 事件类型
-     * @param {Mixed} [args] 事件对象
+     * @param {string | Object} type 事件类型
+     * @param {*} [args] 事件对象
      * @return {Event} 事件传递过程中的`Event`对象
      */
     fire(type, args) {

@@ -22,19 +22,21 @@ const EVENT_PROPERTY_BLACK_LIST = new Set([
 
 /**
  * 事件对象类
- *
- * 3个重载：
- *      - `new Event(type)`
- *      - `new Event(args)`
- *      - `new Event(type, args)`
- * 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
- *
- * @constructor
- * @param {string | Mixed} [type] 事件类型
- * @param {Mixed} [args] 事件中的数据，如果此参数为一个对象，
- * 则将参数扩展到`Event`实例上。如果参数是非对象类型，则作为实例的`data`属性使用
  */
 export default class Event {
+
+    /**
+     * 构造函数
+     *
+     * 3个重载：
+     *      - `new Event(type)`
+     *      - `new Event(args)`
+     *      - `new Event(type, args)`
+     * 只提供一个对象作为参数，则是`new Event(args)`的形式，需要加上type
+     *
+     * @param {string | *} [type] 事件类型
+     * @param {*} [args] 事件中的数据，如果为对象则将参数扩展到`Event`实例上。如果参数是非对象类型，则作为实例的`data`属性使用
+     */
     constructor(type, args) {
         // 如果第1个参数是对象，则就当是`new Event(args)`形式
         if (typeof type === 'object') {
@@ -107,15 +109,14 @@ export default class Event {
     /**
      * 从一个已有事件对象生成一个新的事件对象
      *
+     * @static
      * @param {Event} originalEvent 作为源的已有事件对象
      * @param {Object} [options] 配置项
      * @param {string} [options.type] 新事件对象的类型，不提供则保留原类型
      * @param {boolean} [options.preserveData=false] 是否保留事件的信息
-     * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
-     * 状态包括 **阻止传播** 、 **立即阻止传播** 和 **阻止默认行为**
+     * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，状态包括阻止传播、立即阻止传播和阻止默认行为
      * @param {Object} [options.extend] 提供事件对象的更多属性
      * @return {Event}
-     * @static
      */
     static fromEvent(originalEvent, options) {
         let defaults = {
@@ -171,6 +172,7 @@ export default class Event {
     /**
      * 将一个对象的事件代理到另一个对象
      *
+     * @static
      * @param {EventTarget} from 事件提供方
      * @param {EventTarget | string} fromType 为字符串表示提供方事件类型；
      * 为可监听对象则表示接收方，此时事件类型由第3个参数提供
@@ -179,16 +181,16 @@ export default class Event {
      * @param {string} [toType] 接收方的事件类型
      * @param {Object} [options] 配置项
      * @param {boolean} [options.preserveData=false] 是否保留事件的信息
-     * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，
-     * 状态包括**阻止传播**、**立即阻止传播**和**阻止默认行为**
+     * @param {boolean} [options.syncState=false] 是否让2个事件状态同步，状态包括阻止传播、立即阻止传播和阻止默认行为
      * @param {Object} [options.extend] 提供事件对象的更多属性
      *
-     *     // 当`label`触发`click`事件时，自身也触发`click`事件
-     *     Event.delegate(label, this, 'click');
+     * ```
+     * // 当`label`触发`click`事件时，自身也触发`click`事件
+     * Event.delegate(label, this, 'click');
      *
-     *     // 当`label`触发`click`事件时，自身触发`labelclick`事件
-     *     Event.delegate(label, 'click', this, 'labelclick');
-     * @static
+     * // 当`label`触发`click`事件时，自身触发`labelclick`事件
+     * Event.delegate(label, 'click', this, 'labelclick');
+     * ```
      */
     static delegate(from, fromType, to, toType, options) {
         // 重载：
