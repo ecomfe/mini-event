@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * mini-event
  * Copyright 2013 Baidu Inc. All rights reserved.

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * ER (Enterprise RIA)
  * Copyright 2013 Baidu Inc. All rights reserved.
