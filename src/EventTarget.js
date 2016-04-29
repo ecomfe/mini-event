@@ -63,10 +63,10 @@ export default class EventTarget {
      */
     on(type, fn, thisObject, options) {
         if (!this[EVENT_POOL]) {
-            this[EVENT_POOL] = {};
+            this[EVENT_POOL] = Object.create(null);
         }
 
-        if (!this[EVENT_POOL].hasOwnProperty(type)) {
+        if (!this[EVENT_POOL][type]) {
             this[EVENT_POOL][type] = new EventQueue();
         }
 
@@ -102,7 +102,7 @@ export default class EventTarget {
      * @param {*} [thisObject] 处理函数对应的`this`对象，无此参数则注销`type`与`handler`符合要求，且无`this`对象的处理函数
      */
     un(type, handler, thisObject) {
-        if (!this[EVENT_POOL] || !this[EVENT_POOL].hasOwnProperty(type)) {
+        if (!this[EVENT_POOL] || !this[EVENT_POOL][type]) {
             return;
         }
 
@@ -145,14 +145,14 @@ export default class EventTarget {
 
         // 在此处可能没有[EVENT_POOL]`，这是指对象整个就没初始化，
         // 即一个事件也没注册过就`fire`了，这是正常现象
-        if (this[EVENT_POOL] && this[EVENT_POOL].hasOwnProperty(type)) {
+        if (this[EVENT_POOL] && this[EVENT_POOL][type]) {
             let queue = this[EVENT_POOL][type];
             queue.execute(event, this);
         }
 
         // 同时也有可能在上面执行标准事件队列的时候，把这个`EventTarget`给销毁了，
         // 此时[EVENT_POOL]`就没了，这种情况是正常的不能抛异常，要特别处理
-        if (this[EVENT_POOL] && this[EVENT_POOL].hasOwnProperty('*')) {
+        if (this[EVENT_POOL] && this[EVENT_POOL]['*']) {
             let globalQueue = this[EVENT_POOL]['*'];
             globalQueue.execute(event, this);
         }
@@ -169,7 +169,7 @@ export default class EventTarget {
         }
 
         for (let name in this[EVENT_POOL]) {
-            if (this[EVENT_POOL].hasOwnProperty(name)) {
+            if (this[EVENT_POOL][name]) {
                 this[EVENT_POOL][name].dispose();
             }
         }
