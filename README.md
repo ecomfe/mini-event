@@ -55,3 +55,9 @@ mini-event是一个简单的工具库，用于为任何系统提供事件相关�
 2. 移除`Event.fromDOMEvent`方法。
 3. 移除`EventTarget.enable`方法。
 4. 移除对内联事件处理函数（`onxxx`方法）的支持。
+
+## 2.1版本变更
+
+1. 增加了`dist`目录放置使用UMD编译后的代码。
+2. 内部事件池对象不再从`Object.prototype`继承。
+3. 优化了单元测试、文档生成等npm命令。
