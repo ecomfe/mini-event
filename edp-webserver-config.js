@@ -2,28 +2,23 @@ exports.port = 8848;
 exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
 
-var BABEL_OPTIONS = {
-    modules: 'amd',
-    compact: false,
-    ast: false,
-    sourceMaps: false
-};
+var babelCore = require('babel-core');
 
 exports.getLocations = function () {
     return [
         {
-            // Under `test` directory but not spec file, this takes priority to `source` rule
-            location: /^\/test\/[^\/]+\.js(\?.+)?/,
+            // All source and spec files
+            key: 'source',
+            location: /^\/src\/.+\.js/,
             handler: [
-                file()
+                babel({}, {babel: babelCore})
             ]
         },
         {
             // All source and spec files
-            key: 'source',
-            location: /^\/(src|test)(\/[^\/]+)*\.js\?/,
+            location: /(src|spec)\/.+\.js/,
             handler: [
-                babel(BABEL_OPTIONS)
+                babel({}, {babel: babelCore})
             ]
         },
         {

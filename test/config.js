@@ -9,7 +9,7 @@ module.exports = {
 
 
     // frameworks to use
-    frameworks: ['jasmine2', 'esl'],
+    frameworks: ['jasmine2.3.4', 'esl'],
 
 
     // list of files / patterns to load in the browser
