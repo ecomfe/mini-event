@@ -6,38 +6,29 @@
  * @file 入口
  * @author otakustay
  */
-define(
-    function (require) {
-        var Event = require('./Event');
 
-        /**
-         * @class main
-         * @singleton
-         */
-        return {
-            /**
-             * 版本号
-             *
-             * @type {string}
-             */
-            version: '2.1.0',
+import Event from './Event';
 
-            /**
-             * {@link Event}类
-             *
-             * @type {Function}
-             */
-            Event: Event,
+/**
+ * 版本号
+ *
+ * @type {string}
+ */
+export let version = '2.1.0';
 
-            /**
-             * 参考{@link Event#fromEvent}
-             */
-            fromEvent: Event.fromEvent,
+/**
+ * {@link Event}类
+ *
+ * @type {Function}
+ */
+export {Event};
 
-            /**
-             * 参考{@link Event#delegate}
-             */
-            delegate: Event.delegate
-        };
-    }
-);
+/**
+ * 参考{@link Event#fromEvent}
+ */
+export let fromEvent = Event.fromEvent;
+
+/**
+ * 参考{@link Event#delegate}
+ */
+export let delegate = Event.delegate;
