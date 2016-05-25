@@ -125,10 +125,12 @@ export default class EventTarget {
      */
     fire(type, args) {
         // 只提供一个对象作为参数，则是`.fire(args)`的形式，需要加上type
+        /* eslint-disable prefer-rest-params */
         if (arguments.length === 1 && typeof type === 'object') {
             args = type;
             type = args.type;
         }
+        /* eslint-enable prefer-rest-params */
 
         if (!type) {
             throw new Error('No event type specified');

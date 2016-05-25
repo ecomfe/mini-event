@@ -18,14 +18,14 @@ const QUEUE = Symbol('queue');
  * @return {boolean}
  * @ignore
  */
+/* eslint-disable fecs-arrow-body-style */
 let isContextIdentical = (context, handler, thisObject) => {
     // `thisObject`为`null`和`undefined`时认为等同，所以用`==`
     /* eslint-disable eqeqeq */
-    return context
-        && context.handler === handler
-        && context.thisObject == thisObject;
+    return context && context.handler === handler && context.thisObject == thisObject;
     /* eslint-enable eqeqeq */
 };
+/* eslint-enable fecs-arrow-body-style */
 
 /**
  * 事件队列
