@@ -14,7 +14,7 @@ import Event from './Event';
  *
  * @type {string}
  */
-export let version = '2.1.0';
+export let version = '2.2.0';
 
 /**
  * {@link Event}类
