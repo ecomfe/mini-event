@@ -21,13 +21,14 @@
   "scripts": {
     "test": "edp test start --singleRun",
     "doc": "esdoc -c esdoc.json",
-    "compile": "babel -d dist/ src/",
+    "compile": "babel -d . src/",
     "prepublish": "npm run compile"
   },
   "edp": {
     "wwwroot": "/",
     "depDir": "dep",
     "srcDir": "src",
+    "main": "main",
     "loaderAutoConfig": "js,htm,html,tpl,vm,phtml",
     "loaderUrl": "http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-2/esl.js",
     "dependencies": {},
